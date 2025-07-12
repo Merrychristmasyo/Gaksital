@@ -1,0 +1,67 @@
+/* 선택된 날짜(오늘 클릭한 날짜) */
+.react-calendar__tile--active {
+  background: #bcbcff !important;   /* 연보라색 */
+  color: #222 !important;           /* 글자색 */
+  border-radius: 8px;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #bcbcff !important;
+  color: #222 !important;
+}
+
+/* 일요일(첫 번째 칸) */
+.react-calendar__month-view__days__day--weekend:first-child {
+  color: #fdcaca !important; /* 연한 빨강 등 원하는 색 */
+}
+
+/* 토요일(마지막 칸) */
+.react-calendar__month-view__days__day--weekend:last-child {
+  color: #7b8cff !important; /* 연한 파랑 등 원하는 색 */
+}
+
+/* 오늘 날짜(현재 날짜) */
+.react-calendar__tile--now {
+  background: #e2e6ff !important;  /* 원하는 색상으로 변경 (예: 연노랑) */
+  color: #222 !important;          /* 글자색 */
+  border-radius: 8px;
+}
+
+/* 오늘 날짜 + 선택된 날짜가 겹칠 때(선택된 날짜 스타일이 우선 적용됨) */
+.react-calendar__tile--now.react-calendar__tile--active {
+  background: #bcbcff !important;  /* 선택된 날짜 색상과 동일하게 */
+  color: #222 !important;
+}
+
+/* 달력 테두리와 그림자 없애기 + 달력 크기 조절 */
+.react-calendar {
+  border: none !important;
+  box-shadow: none !important;
+  width: 100% !important;      /* 부모 컨테이너에 맞게 */
+  min-width: 320px !important; /* 최소 크기 */
+  max-width: 600px !important; /* 최대 크기(원하는 만큼) */
+  font-size: 1.3rem !important; /* 숫자, 글씨 크기 */
+}
+
+/* 달력 바깥쪽 컨테이너(StatsPage.jsx에서 감싸는 div)에 스타일 적용) */
+.my-calendar-container {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* 이전 달, 다음 달 날짜 색상 조절 */
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #d0cfcf !important;
+}
+
+/* 모든 스크롤바 숨기기 (Webkit 브라우저) */
+.my-record-list {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE, Edge */
+}
+.my-record-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
