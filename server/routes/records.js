@@ -5,17 +5,19 @@ const User    = require("../models/User"); // User 모델 import
 
 /**
  * POST /records
- * body: { userId, date, values, intervals }
+ * body: { userId, timestamp, values, blinkCounts }
  *   userId: 구글 프로필 sub 문자열
  */
 router.post("/", async (req, res) => {
   console.log("▶▶▶ /records POST 호출됨", req.body);
 
   try {
-    const { userId, timestamp, values, blinkCount } = req.body;
+    const { userId, timestamp, values, blinkCounts } = req.body;
 
-    if (!values || !Array.isArray(values) || typeof blinkCount !== "number") {
-      return res.status(400).json({ error: "`values` 배열과 `blinkCount` 숫자가 필요합니다." });
+    if (!Array.isArray(values) || !Array.isArray(blinkCounts)) {
+      return res
+        .status(400)
+        .json({ error: "`values` 배열과 `blinkCounts` 배열이 필요합니다." });
     }
 
     // 1) User 문서 조회 (googleId 필드로 저장해 두셨을 겁니다)
@@ -32,7 +34,7 @@ router.post("/", async (req, res) => {
       user:      user._id,  // << 여기가 ObjectId 타입
       timestamp: new Date(timestamp),
       values,
-      blinkCount
+      blinkCounts
     });
 
     console.log("✅ MongoDB 저장 성공:", rec._id);

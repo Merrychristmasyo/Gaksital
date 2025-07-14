@@ -36,6 +36,7 @@ const MainPage = () => {
   const [sessionData, setSessionData] = useState({
     values: [],         // 측정된 개폐도 값들을 저장할 배열
     blinkTimestamps: [],// 깜빡임이 발생한 시각(timestamp)을 저장할 배열
+    blinkCounts: []   // 깜빡임 횟수를 저장할 배열
   });  
   // 한 인식 세션 동안 수집할 데이터를 묶어 관리합니다.
 
@@ -57,6 +58,8 @@ const MainPage = () => {
     // FaceMeshComponent가 제공하는 데이터(깜빡임, 개폐도)를 받아 처리하는 함수
     console.log(`FRAME ▶︎ openness=${op.toFixed(2)}, blinkCount=${bc}`);
 
+    const delta = bc - prevBlinkCount > 0 ? bc - prevBlinkCount : 0;
+
     setBlinkCount(bc);  
     // 상태에 깜빡임 횟수를 업데이트합니다.
 
@@ -69,20 +72,24 @@ const MainPage = () => {
     const now = Date.now();  
     // 현재 시각(밀리초)을 구합니다.
 
-    setSessionData(prev => {
-      const newValues = [...prev.values, op];
-      //console.log("▶▶▶ NEW sessionData.values:", newValues);
+    setSessionData(prev => ({
+      ...prev,
+      values: [...prev.values, op],
+      blinkTimestamps: delta > 0 ? [...prev.blinkTimestamps, now] : prev.blinkTimestamps,
+      blinkCounts: [...prev.blinkCounts, bc]
+      // const newValues = [...prev.values, op];
+      // //console.log("▶▶▶ NEW sessionData.values:", newValues);
 
-      return{
-        values: newValues,
-        blinkTimestamps: bc > prevBlinkCount
-          ? [...prev.blinkTimestamps, now]
-          : prev.blinkTimestamps
-      };
-    });
-    if(bc > prevBlinkCount) {
-      setPrevBlinkCount(bc);
-    }
+      // return{
+      //   values: newValues,
+      //   blinkTimestamps: bc > prevBlinkCount
+      //     ? [...prev.blinkTimestamps, now]
+      //     : prev.blinkTimestamps
+      // };
+    }));
+    // if(bc > prevBlinkCount) {
+    setPrevBlinkCount(bc);
+    // }
 
     //console.log("sessionData values =", sessionData.values);
   };
@@ -90,7 +97,7 @@ const MainPage = () => {
   const startRecognition = () => {
     // 인식 시작 버튼 클릭 시 실행되는 함수
 
-    setSessionData({ values: [], blinkTimestamps: [] });
+    setSessionData({ values: [], blinkTimestamps: [], blinkCounts: [] });
     // 세션 데이터를 초기화합니다.
 
     setPrevBlinkCount(0);  
@@ -124,9 +131,14 @@ const MainPage = () => {
   const handleConfirmSave = async () => {
     setShowSaveConfirm(false);
 
-    const { values, blinkTimestamps } = sessionData;
-    const blinkCount = blinkTimestamps.length;
+    let { values, blinkTimestamps, blinkCounts } = sessionData;
 
+    const startIdx = values.findIndex((op, i) => op > 0 || blinkCounts[i] > 0); // 연속된 0 프레임만큼 startIdx 찾기
+    const sliceIdx = startIdx >= 0 ? startIdx : values.length; // 연속된 0 프레임만큼 자르기
+
+    values = values.slice(sliceIdx);
+    blinkCounts = blinkCounts.slice(sliceIdx);
+    
     try {
       // localStorage에서 user 꺼내기
       const stored = localStorage.getItem("user");
@@ -139,7 +151,7 @@ const MainPage = () => {
           userId: user?.id || user?._id,       // 구글ID나 MongoDB _id
           timestamp: new Date().toISOString(),
           values,
-          blinkCount
+          blinkCounts
         },
         { withCredentials: true }
       );
@@ -153,7 +165,7 @@ const MainPage = () => {
 
   const handleCancelSave = () => {
     setShowSaveConfirm(false);
-    setSessionData({ values: [], blinkTimestamps: [] });
+    setSessionData({ values: [], blinkTimestamps: [], blinkCounts: [] });
     setPrevBlinkCount(0);
   };
   
