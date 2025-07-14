@@ -24,6 +24,8 @@ const MainPage = () => {
   const timeoutRef = useRef(null);  
   // 10초 타이머 ID를 저장해두기 위한 ref 객체를 생성합니다.
 
+  const measurementStartedRef = useRef(false);
+
   const [blinkCount, setBlinkCount] = useState(0);  
   // 실시간 깜빡임 횟수를 관리하는 상태 변수와 업데이트 함수입니다.
 
@@ -69,6 +71,11 @@ const MainPage = () => {
     if (!isRecognizing) return;  
     // 인식 중이 아니면 이후 세션 수집 로직을 실행하지 않습니다.
 
+    if (!measurementStartedRef.current) {
+      measurementStartedRef.current = true;
+      timeoutRef.current = setTimeout(finishRecognition, 10000);
+    }
+
     const now = Date.now();  
     // 현재 시각(밀리초)을 구합니다.
 
@@ -103,14 +110,13 @@ const MainPage = () => {
     setPrevBlinkCount(0);  
     // 이전 깜빡임 카운트도 리셋합니다.
 
+    measurementStartedRef.current = false;
+
     meshToggleRef.current?.toggle();  
     // FaceMeshComponent 내부 toggle 함수를 호출해 인식 시작
 
     setIsRecognizing(true);  
     // 인식 중 상태로 변경
-
-    timeoutRef.current = setTimeout(finishRecognition, 10000);  
-    // 10초 뒤 finishRecognition 함수를 자동 실행하도록 타이머 설정
   };
 
   const finishRecognition = () => {
@@ -124,6 +130,8 @@ const MainPage = () => {
 
     clearTimeout(timeoutRef.current);  
     // 타이머를 정리
+
+    measurementStartedRef.current = false;
 
     setShowSaveConfirm(true);
   };
@@ -167,6 +175,7 @@ const MainPage = () => {
     setShowSaveConfirm(false);
     setSessionData({ values: [], blinkTimestamps: [], blinkCounts: [] });
     setPrevBlinkCount(0);
+    measurementStartedRef.current = false;
   };
   
   return (
