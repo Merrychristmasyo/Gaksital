@@ -1,58 +1,59 @@
-const cors = require("cors");  
-require("dotenv").config();         // .env 로드
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
-require("./auth");                  // 위에서 설정한 passport 전략 임포트
+const connectDB = require("./config/db");
+require("./auth");
+const authRoutes   = require("./routes/auth");
+const recordRouter = require("./routes/records");
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
+// 1) MongoDB 연결
+connectDB();
+
+// 2) CORS 설정 (쿠키 전달을 위해 가장 먼저)  
+app.use(cors({  
+  origin: "http://localhost:3000",  
+  credentials: true,  
 }));
-// 1) 세션 미들웨어: 로그인 상태 유지용
+
+// 3) JSON 바디 파싱 ★ 변경  
+//    → 반드시 /records 보다 **위**에 와야 req.body를 인식합니다.
+app.use(express.json());
+
+// 4) 세션 미들웨어 ★ 변경  
+//    → passport.session() 전에 등록해야 세션이 정상 동작합니다.
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none",
+      secure: false
+    }
   })
 );
 
-// 2) Passport 초기화 및 세션 연동
+// 5) Passport 초기화 및 세션 연동  
 app.use(passport.initialize());
 app.use(passport.session());
 
-// 헬스체크용 라우트 (프론트가 이 응답 보고 정상 여부 판단)
-app.get("/", (req, res) => {
-  res.json({ status: "ok" });
-});
+// 6) 헬스체크
+app.get("/", (req, res) => res.json({ status: "ok" }));
 
-// 3) Google OAuth 1차 요청
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// 7) 인증 라우트  
+app.use("/auth", authRoutes);
 
-// 4) Google OAuth 콜백 처리
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login-failure" }),
-  (req, res) => {
-    // 인증 성공 시 React 앱으로 유저 정보 전달
-    const userData = encodeURIComponent(JSON.stringify(req.user));
-    res.redirect(`http://localhost:3000?user=${userData}`);
-  }
-);
+// 8) 기록 라우트 ★ 변경  
+//    → express.json(), session, passport.session() 이후에 등록해야  
+//      req.body 와 req.user 를 모두 사용할 수 있습니다.
+app.use("/records", recordRouter);
 
-// 실패 시 라우트
-app.get("/login-failure", (req, res) => {
-  res.send("Google 로그인에 실패했습니다.");
-});
-
-// 서버 시작
+// 9) 서버 시작
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+app.listen(PORT, () =>
+  console.log(`🚀 Server listening on http://localhost:${PORT}`)
+);

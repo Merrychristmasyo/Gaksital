@@ -34,7 +34,7 @@ const ToggleSwitch = ({ checked, onChange }) => (
   </label>
 );
 
-const ProfilePage = () => {
+const ProfilePage = ({user}) => {
   // 토글 상태 관리
   const [alert1, setAlert1] = useState(true);
   const [alert2, setAlert2] = useState(false);
@@ -57,7 +57,10 @@ const ProfilePage = () => {
   const confirmLogout = () => {
     setShowLogoutConfirm(false);
     // 실제 로그아웃 처리 코드
-    alert("로그아웃 되었습니다!");
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    navigate("/", { replace: true });
+    window.location.reload();
   };
 
   const cancelLogout = () => {
@@ -83,7 +86,7 @@ const ProfilePage = () => {
         marginTop: "60px" // 원하는 만큼 숫자를 늘려보세요 (예: 60px, 100px 등)
       }}>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+          src={user.photo || "https://cdn-icons-png.flaticon.com/512/1946/1946429.png"}
           alt="user"
           style={{ width: "120px", borderRadius: "50%" }}
         />
@@ -104,7 +107,7 @@ const ProfilePage = () => {
           ✏️
         </button>
       </div>
-      <div style={{ marginTop: "10px", fontSize: "18px" }}>blink123@gmail.com</div>
+      <div style={{ marginTop: "10px", fontSize: "18px" }}>{user.email}</div>
 
       {/* 알림 설정 */}
       <div

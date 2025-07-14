@@ -1,8 +1,10 @@
 // src/components/StatsPage.jsx
-import React, { useState } from "react";
-import Calendar from "react-calendar";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
 import './StatsPage.css';
+import axios from "axios";
+
+const Calendar = lazy(() => import("react-calendar"));
 
 const dummyCalendar = [
   // 예시: 날짜별 기록 개수
@@ -13,6 +15,7 @@ const dummyCalendar = [
 
 const StatsPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const [month, setMonth] = useState(7);
 
   // 예시: 선택한 날짜의 기록들
@@ -37,7 +40,6 @@ const StatsPage = () => {
     <div style={{
       width: "100vw",
       height: "100vh",         // 브라우저 높이 고정
-      overflow: "hidden",      // 브라우저 스크롤 막기
       background: "#fff",
       display: "flex",
       flexDirection: "column",
@@ -132,11 +134,13 @@ const StatsPage = () => {
             }}
           >
             {/* 달력 라이브러리 사용 */}
-            <Calendar
-              onChange={setSelectedDate}
-              value={selectedDate}
-              formatDay={(_, date) => date.getDate()} //'일' 없애기기
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Calendar
+                onChange={setSelectedDate}
+                value={selectedDate}
+                formatDay={(_, date) => date.getDate()} //'일' 없애기기
+              />
+            </Suspense>
           </div>
         </div>
         
