@@ -19,7 +19,10 @@ router.post("/", async (req, res) => {
     }
 
     // 1) User 문서 조회 (googleId 필드로 저장해 두셨을 겁니다)
-    const user = await User.findOne({ googleId: userId });
+    let user = await User.findOne({ googleId: userId });
+    if (!user) {
+      user = await User.findById(userId);
+    }
     if (!user) {
       return res.status(404).json({ error: "해당 구글 ID 사용자 없음" });
     }

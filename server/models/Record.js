@@ -7,10 +7,10 @@ const RecordSchema = new mongoose.Schema({
     type: Number,
     required: true
   }],
-  blinkCount: {                   
+  blinkCounts: [{                   
     type: Number,
     required: true
-  }
+  }]
 });
 
 module.exports = mongoose.model("Record", RecordSchema);
