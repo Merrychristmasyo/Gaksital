@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './StatsPage.css';
 
@@ -67,6 +67,22 @@ const ProfilePage = ({user}) => {
     setShowLogoutConfirm(false);
   };
 
+  // 마운트 시 로컬스토리지에서 불러오기
+  useEffect(() => {
+    const d = localStorage.getItem("alert1");
+    const b = localStorage.getItem("alert2");
+    const s = localStorage.getItem("alert3");        // ← 새 값
+    if (d !== null) setAlert1(JSON.parse(d));
+    if (b !== null) setAlert2(JSON.parse(b));
+    if (s !== null) setAlert3(JSON.parse(s));        // ← 새 값
+  }, []);
+
+    // 상태 + 로컬스토리지 동기화 헬퍼
+  const handleToggle = (key, val, setter) => {
+    setter(val);
+    localStorage.setItem(key, JSON.stringify(val));
+  };
+
   return (
     <div
       style={{
@@ -91,7 +107,6 @@ const ProfilePage = ({user}) => {
           style={{ width: "120px", borderRadius: "50%" }}
         />
         <button
-          onClick={handleEditProfile}
           style={{
             position: "absolute",
             right: "0",
@@ -104,10 +119,17 @@ const ProfilePage = ({user}) => {
             cursor: "pointer"
           }}
         >
-          ✏️
+          ⭐
         </button>
       </div>
-      <div style={{ marginTop: "10px", fontSize: "18px" }}>{user.email}</div>
+      <div style={{ marginTop: "10px", fontSize: "18px", textAlign: "center", fontWeight: "bold" }}>
+        {user.email.split("@")[0]}님, 눈 뜨세요!<br/>
+        <img 
+          src={"/eye_bat.png"} 
+          alt="eye_open" 
+          style={{width: "110px", marginTop: "10px", marginRight: "20px"}} />
+        
+      </div>
 
       {/* 알림 설정 */}
       <div
@@ -120,22 +142,23 @@ const ProfilePage = ({user}) => {
           minHeight: "300px"         // 필요에 따라 높이 조정
         }}
       >
-        <div style={{ fontWeight: "bold", marginBottom: "16px", fontSize: "20px" }}>
+        <div style={{ fontWeight: "bold", marginBottom: "20px", fontSize: "20px" }}>
           알림 설정
         </div>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
           <span style={{ marginRight: "16px" }}>졸림 감지 알림</span>
-          <ToggleSwitch checked={alert1} onChange={() => setAlert1(!alert1)} />
+          <ToggleSwitch checked={alert1} onChange={() => handleToggle("alert1", !alert1, setAlert1)} />
         </div>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
           <span style={{ marginRight: "16px" }}>깜빡임 저조 알림</span>
-          <ToggleSwitch checked={alert2} onChange={() => setAlert2(!alert2)} />
+          <ToggleSwitch checked={alert2} onChange={() => handleToggle("alert2", !alert2, setAlert2)} />
         </div>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
-          <span style={{ marginRight: "16px" }}>브라우저 푸쉬 권한</span>
-          <ToggleSwitch checked={alert3} onChange={() => setAlert3(!alert3)} />
+          <span style={{ marginRight: "16px" }}>음악 저장 알림</span>
+          <ToggleSwitch checked={alert3} onChange={() => handleToggle("alert3", !alert3, setAlert3)} />
         </div>
       </div>
+
 
       {/* 로그아웃 버튼 */}
       <div style={{ marginTop: "40px" }}>

@@ -1,23 +1,19 @@
-  // client/src/components/MainPage.jsx
 
   import React, { useRef, useState, useEffect } from "react";  
-  // React 및 필요한 훅(useRef, useState, useEffect)을 불러옵니다.
-
   import NavBar from "./NavBar";  
-  // 상단 네비게이션 바 컴포넌트를 임포트합니다.
-
   import FaceMeshComponent from "./FaceMesh";  
-  // 웹캠 기반 얼굴·눈 감지 로직을 가진 컴포넌트를 임포트합니다.
-
   import axios from "axios";  
-  // 서버 통신을 위한 axios HTTP 클라이언트를 불러옵니다.
+  import { useNavigate } from "react-router-dom";
+  import { ToastContainer, toast } from "react-toastify";
+  import 'react-toastify/dist/ReactToastify.css';
 
   const API_URL = process.env.REACT_APP_API_URL;  
   // .env에 설정된 백엔드 API 기본 URL을 상수로 저장합니다.
 
   const MainPage = () => {
     // MainPage 컴포넌트 시작
-
+    const mainTimer = 5
+    const navigate = useNavigate();
     const meshToggleRef = useRef(null);  
     // FaceMeshComponent의 토글 함수를 참조하기 위한 ref 객체를 생성합니다.
 
@@ -67,15 +63,15 @@
         intervalRef.current = setInterval(() => {
           setElapsedTime(prev => {
             const next = parseFloat((prev + 0.1).toFixed(1));
-            if (next >= 20.0) {
+            if (next >= parseFloat(mainTimer.toFixed(1))) {
               clearInterval(intervalRef.current);
-              return 20.0;
+              return parseFloat(mainTimer.toFixed(1));
             }
             return next;
           });
         }, 100);
 
-        timeoutRef.current = setTimeout(finishRecognition, 20000);  
+        timeoutRef.current = setTimeout(finishRecognition, parseFloat(mainTimer.toFixed(1)) * 1000);  
         // 10초 뒤 finishRecognition 함수를 자동 실행하도록 타이머 설정
         timerStartedRef.current = true;
       }     
@@ -115,8 +111,6 @@
       // if(bc > prevBlinkCount) {
       setPrevBlinkCount(bc);
       // }
-
-      //console.log("sessionData values =", sessionData.values);
     };
 
     const startRecognition = () => {
@@ -164,6 +158,10 @@
     const handleConfirmSave = async () => {
       setShowSaveConfirm(false);
 
+      clearTimeout(timeoutRef.current);
+      clearInterval(intervalRef.current);
+      timerStartedRef.current = false;
+
       let { values, blinkTimestamps, blinkCounts } = sessionData;
 
       const startIdx = values.findIndex((op, i) => op > 0 || blinkCounts[i] > 0); // 연속된 0 프레임만큼 startIdx 찾기
@@ -182,7 +180,7 @@
           `${API_URL}/records`,
           {
             userId: user?.id || user?._id,       // 구글ID나 MongoDB _id
-            timestamp: new Date().toISOString().replace("Z", "+09:00"),
+            timestamp: new Date(),
             values,
             blinkCounts,
             blinkTimestamps
@@ -192,6 +190,11 @@
 
 
         console.log("📦 세션 데이터 저장 완료");
+
+        const wasTired = checkTiredness();
+
+        if(!wasTired) checkEyeDrought();
+
       } catch (err) {
         console.error("❌ 데이터 저장 실패", err);
       }
@@ -199,6 +202,11 @@
 
     const handleCancelSave = () => {
       setShowSaveConfirm(false);
+
+      clearTimeout(timeoutRef.current);
+      clearInterval(intervalRef.current);
+      timerStartedRef.current = false;
+
       setSessionData({ values: [], blinkTimestamps: [], blinkCounts: [] });
       setPrevBlinkCount(0);
     };
@@ -207,6 +215,83 @@
       if (openness < 5) return "/eye_close.png";
       if (openness < 100) return "/eye_middle.png";
       return "/eye_open.png";
+    };
+
+    const checkTiredness = () => {
+      const { values } = sessionData;
+      let valuesCopy = [...values];
+      const firstNonZeroIdx = valuesCopy.findIndex(v => v > 0);
+      if (firstNonZeroIdx >= 0) {
+        console.log("▶▶▶ firstNonZeroIdx =", firstNonZeroIdx);
+        valuesCopy = valuesCopy.slice(firstNonZeroIdx);
+      } else {
+        // 모두 0 이면 평균 계산하지 않음
+        return false;
+      }
+      
+      if (valuesCopy.length === 0) return false;
+      const avgOpen = valuesCopy.reduce((a, b) => a + b, 0) / valuesCopy.length;
+
+      console.log("▶▶▶ avgOpen =", avgOpen);
+      
+      if (avgOpen < 95) {
+        toast.info(
+          <div style={{ textAlign: 'center' }}>
+            피곤하면 잠시 쉬어 가세요!<br/>
+            <button
+              onClick={() => { navigate('/recommend'); toast.dismiss(); }}
+              style={{
+                marginTop: '8px', padding: '4px 8px',
+                background: '#7f5af0', color: '#fff', border: 'none',
+                borderRadius: '4px', cursor: 'pointer'
+              }}
+            >
+              음악 추천으로
+            </button>
+          </div>,
+          { autoClose: 3000 }
+        );
+        return true;  // 졸림이 감지되었음을 알림
+      }
+      return false;
+    };
+
+    const checkEyeDrought = () => {
+      const { blinkTimestamps } = sessionData;
+
+      if (blinkTimestamps.length < 2) {
+        toast.warning(
+          <div style={{ textAlign: 'center' }}>
+            👀 화면보다 눈 건강이 먼저예요!<br/>
+            잠깐 쉬어가세요
+          </div>,
+          {
+            icon: '💡',
+            autoClose: 8000
+          }
+        );
+        return;
+      }
+      // 간격(ms) → 초
+      const intervals = blinkTimestamps
+        .slice(1)
+        .map((t, i) => (t - blinkTimestamps[i]) / 1000);
+      const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+      console.log("▶▶▶ avgInterval =", avgInterval);
+      if (avgInterval > 5) {
+        toast.warning(
+          <div style={{ textAlign: 'center' }}>
+            👀 화면보다 눈 건강이 먼저예요!<br/>
+            잠깐 쉬어가세요
+          </div>,
+          {
+            icon: '💡',
+            autoClose: 8000
+          }
+        );
+      } else {
+        toast.success("👏 눈 깜빡임이 정상이에요!", { icon: '👍', autoClose: 3000 });
+      }
     };
 
     return (

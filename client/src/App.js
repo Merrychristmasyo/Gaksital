@@ -8,6 +8,9 @@ import EditProfilePage from "./components/EditProfilePage";
 import StatsPage from "./components/StatsPage";
 import SongRecommendPage from "./components/SongRecommendPage";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 console.log("StatsPage = ",StatsPage);
 /**
  * index.js에서 <BrowserRouter>로 감싼 후, 여기서는 NavBar와 Routes만 관리
@@ -35,6 +38,23 @@ function App() {
 
   return (
     <>
+    <ToastContainer
+      position="bottom-right"
+      autoClose={4000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      pauseOnHover ={false}
+      pauseOnFocusLoss ={false}
+      //theme="light"
+      toastStyle={{
+        background: '#fcfbff',    // 배경색
+        color: '#6c2cff',         // 글자색
+        borderRadius: '10px',
+        fontWeight: 'bold',
+      }}
+    />
+
       {user && <NavBar />}
       <Routes>
         <Route

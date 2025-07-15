@@ -74,3 +74,20 @@
 .logout-btn:hover {
   color: #6c2cff; /* 보라색 */
 }
+
+.menu-item {
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(186, 170, 255, 0.2);
+}
+
+.menu-item.active {
+  background: #bbaaff;  /* 보라색 */
+  color: #fff;
+}

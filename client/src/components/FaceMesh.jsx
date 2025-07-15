@@ -25,7 +25,7 @@ const FaceMeshComponent = forwardRef(({ width = 640, height = 480, onData }, ref
   const [openness, setOpenness] = useState(0);
 
   const OPEN_THRESHOLD = 0.35;
-  const CLOSE_THRESHOLD = 0.19;
+  const CLOSE_THRESHOLD = 0.15;
 
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const calcEAR = (lm, t, b, l, r) => dist(lm[t], lm[b]) / dist(lm[l], lm[r]);

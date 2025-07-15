@@ -79,7 +79,8 @@ const StatsPage = () => {
     return (
       <>
         <div className="summary-date">
-          {new Date(selectedRecord.timestamp).toLocaleString()}
+          {new Date(selectedRecord.timestamp)
+          .toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
         </div>
         <div className="summary-labels">
           <div>최소 간격(s)</div>
@@ -142,6 +143,7 @@ const StatsPage = () => {
               <div className="card-header">
                 {new Date(rec.timestamp).toLocaleTimeString()}  :  기록 {idx+1}
               </div>
+              {selectedRecord?._id === rec._id && (
               <ResponsiveContainer width="100%" height={80}>
                 <LineChart data={chartData} margin={{ top:0,right:0,left:0,bottom:0 }}>
                   <XAxis dataKey="frame" hide />
@@ -149,6 +151,7 @@ const StatsPage = () => {
                   <Line type="monotone" dataKey="openness" stroke="#8884d8" strokeWidth={3} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
+              )}
               <div className="card-values">
                 평균 개폐율: {avgOpenness}%
               </div>

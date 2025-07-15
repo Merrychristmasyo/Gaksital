@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import './SongRecommendPage.css';
 import { fetchSongsByDate, toggleSaveSong, deleteSavedSong, fetchSavedSongs, saveSong } from '../services/api';
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /**
  * 추천 로직 플로우:
  * 1. 컴포넌트 마운트 시 사용자의 위치 기반 현재 날씨(온도)와 현지 시간(시간대)을 OpenWeatherMap API로 조회
@@ -205,27 +208,36 @@ const SongRecommendPage = ({ user }) => {
         try {
           const exists = savedSongs.some(s => s.videoId === song.videoId);
           if (exists) {
-          // 이미 저장돼 있으면 삭제
+            // 이미 저장돼 있으면 삭제
             const matched = savedSongs.find(s => s.videoId === song.videoId);
-            if (matched && matched.savedId) {
+            if (matched?.savedId) {
               await deleteSavedSong(matched.savedId);
-          }
+              // 삭제 성공 알림 (토글이 켜져 있을 때만)
+              if (JSON.parse(localStorage.getItem("alert3") || "false")) {
+                toast.info("🗑️ 노래가 목록에서 제거되었습니다.");
+              }
+            }
           } else {
-          // 저장
+            // 저장
             await saveSong(userId, dateStr, song);
+            //console.log("✔ save toast would fire? alert3:", localStorage.getItem("alert3"));
+            // 저장 성공 알림 (토글이 켜져 있을 때만)
+            if (JSON.parse(localStorage.getItem("alert3") || "false")) {
+              toast.success("✅ 노래가 목록에 추가되었습니다!");
+            }
           }
-          // 변경 후 다시 불러오기
+    
+          // 변경 후 목록 다시 로드
           await loadSaved();
-          /*const res = await fetchSavedSongs(userId, dateStr);
-          setSavedSongs(res.data.map(item => ({
-            ...item.song,
-            savedId: item._id
-          })));
-          */
-          } catch (err) {
-            console.error("토글 실패:", err.response?.data || err);
+    
+        } catch (err) {
+          console.error("토글 실패:", (err.response && err.response.data) || err);
+          // 오류 알림 (토글이 켜져 있을 때만)
+          if (JSON.parse(localStorage.getItem("alert3") || "false")) {
+            toast.error("❌ 음악 저장/삭제 중 오류가 발생했습니다.");
           }
-        };
+        }
+      };
 
       if (loading) return <div>추천 로딩 중...</div>;
       if (error) return <div>{error}</div>;
