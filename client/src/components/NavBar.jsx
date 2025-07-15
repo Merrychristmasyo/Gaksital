@@ -5,6 +5,9 @@ import "./NavBar.css";
 const NavBar = () => {
   const navigate = useNavigate();
 
+  const stored = localStorage.getItem("user");
+  const userObj = stored ? JSON.parse(stored) : null;
+  const photoUrl = userObj?.photo || userObj?.photoURL || "https://cdn-icons-png.flaticon.com/512/1946/1946429.png";
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/", {replace:true});
@@ -13,17 +16,22 @@ const NavBar = () => {
 
   return (
     <nav className="navbar">
-      <div className="main-logo">GAKSITAL</div>
+      <div className="main-logo">BLINK</div>
       <div className="main-menu">
-        <Link to="/profile">프로필 | 설정</Link>
-        <Link to="/stats">나의 통계</Link>
-        <Link to="/recommend">노래 추천</Link>
-        <Link to="/eye">눈 인식 제어</Link>
+       
+        <Link to="/eye">MAIN</Link>
+        <Link to="/recommend">MUSIC</Link>
+        <Link to="/stats">STATS</Link>
+        <Link to="/profile">PROFILE/SETTING</Link>
+        
     
       </div>
-      <div className="profile-area">  
+      <div 
+        className="profile-area" 
+        style={{ display: "flex", alignItems: "center", gap: "8px" }}
+      >  
         <img
-          src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+          src={photoUrl}
           alt="profile"
           className="profile-icon"
         />

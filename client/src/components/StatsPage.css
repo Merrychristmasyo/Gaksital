@@ -1,67 +1,252 @@
-/* 선택된 날짜(오늘 클릭한 날짜) */
-.react-calendar__tile--active {
-  background: #bcbcff !important;   /* 연보라색 */
-  color: #222 !important;           /* 글자색 */
-  border-radius: 8px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* client/src/components/StatsPage.css */
+:root {
+  --nav-height: 64px;
+  --primary: #a290bf;         /* pastel purple */
+  --accent-light: #e6e1f0;   /* light pastel purple */
+  --accent-dark: #8c6ba5;    /* darker pastel purple */
+  --bg: #f4f2fa;             /* pale lavender */
+  --card-bg: #ffffff;        /* white cards */
+  --border: #ddd6f7;         /* light lavender border */
+  --text: #4a3f55;           /* dark muted purple text */
+  --muted: #8a7890;          /* softer muted purple text */
 }
 
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: #bcbcff !important;
-  color: #222 !important;
+/* 전체 페이지 레이아웃 */
+.stats-page {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh - var(--nav-height));
+  margin-top: var(--nav-height);
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  gap: 24px;
 }
 
-/* 일요일(첫 번째 칸) */
-.react-calendar__month-view__days__day--weekend:first-child {
-  color: #fdcaca !important; /* 연한 빨강 등 원하는 색 */
+/* 좌측 패널 */
+.stats-left {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 24px;
 }
 
-/* 토요일(마지막 칸) */
-.react-calendar__month-view__days__day--weekend:last-child {
-  color: #7b8cff !important; /* 연한 파랑 등 원하는 색 */
+/* 통계 요약 카드 */
+.stats-summary {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-bottom: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  height: 200px;
+  box-sizing: border-box;
+
+  display: flex;                /* ✨ 변경: flex 레이아웃으로 */
+  flex-direction: column;       /* 세로 배치 */
+  justify-content: space-between; /* 위아래 여백 확보 */
 }
 
-/* 오늘 날짜(현재 날짜) */
-.react-calendar__tile--now {
-  background: #e2e6ff !important;  /* 원하는 색상으로 변경 (예: 연노랑) */
-  color: #222 !important;          /* 글자색 */
-  border-radius: 8px;
+/* 날짜 */
+.summary-date {
+  font-size: 20px;              /* ✨ 변경: 크기 살짝 키움 */
+  font-weight: 600;
+  color: var(--accent-dark);    /* ✨ 변경: primary → accent-dark */
+  margin-bottom: 8px;           /* ✨ 변경: 간격 조정 */
+  letter-spacing: 1px;          /* ✨ 변경: 자간 추가 */
+  font-family: 'Inter', sans-serif; /* ✨ 변경: 인터 폰트 명시 */
 }
 
-/* 오늘 날짜 + 선택된 날짜가 겹칠 때(선택된 날짜 스타일이 우선 적용됨) */
-.react-calendar__tile--now.react-calendar__tile--active {
-  background: #bcbcff !important;  /* 선택된 날짜 색상과 동일하게 */
-  color: #222 !important;
+/* 레이블 그룹을 카드 상단에 가깝게 */
+.summary-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  align-items: center;
+  color: var(--muted);
+  margin-bottom: 4px;           /* ✨ 변경: 여백 축소 */
+  text-transform: uppercase;    /* ✨ 변경: 대문자로 통일 */
+  letter-spacing: 0.2px;        /* ✨ 변경: 자간 추가 */
 }
 
-/* 달력 테두리와 그림자 없애기 + 달력 크기 조절 */
-.react-calendar {
-  border: none !important;
-  box-shadow: none !important;
-  width: 100% !important;      /* 부모 컨테이너에 맞게 */
-  min-width: 320px !important; /* 최소 크기 */
-  max-width: 600px !important; /* 최대 크기(원하는 만큼) */
-  font-size: 1.3rem !important; /* 숫자, 글씨 크기 */
+.summary-labels > * {
+  flex: 1;                      /* ✨ 변경: 각 항목이 균등 폭 차지 */
+  text-align: center;           /* ✨ 변경: 중앙 정렬 */
 }
 
-/* 달력 바깥쪽 컨테이너(StatsPage.jsx에서 감싸는 div)에 스타일 적용) */
-.my-calendar-container {
+/* 값 그룹을 중앙에 강조 */
+.summary-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28px;              /* ✨ 변경: 크기 키워 강조 */
+  font-weight: 700;             /* ✨ 변경: 더 굵게 */
+  color: var(--primary);        /* ✨ 변경: primary 색상으로 */
+  line-height: 1.2;             /* ✨ 변경: 줄간격 조정 */
+}
+
+/* summary-values 안의 개별 값에 여유주기 */
+.summary-values > * {
+  flex: 1;                      /* ✨ 변경: 각 항목이 균등 폭 차지 */
+  text-align: center;           /* ✨ 변경: 중앙 정렬 */
+}
+
+/* 캘린더 컨테이너 */
+.stats-calendar {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-bottom: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 0;
+}
+.stats-calendar .react-calendar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; height: 100%;
   background: none;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
+  font-family: inherit;
+  border: none;
+}
+.stats-calendar .react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.stats-calendar .react-calendar__navigation__prev2-button,
+.stats-calendar .react-calendar__navigation__next2-button {
+  display: none;
+}
+.stats-calendar .react-calendar__navigation__prev-button,
+.stats-calendar .react-calendar__navigation__next-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--muted);
+}
+.stats-calendar .react-calendar__navigation__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.stats-calendar .react-calendar__month-view__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 12px;
+}
+.stats-calendar .react-calendar__month-view__weekdays__weekday {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+.stats-calendar .react-calendar__month-view__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);  /* 한 줄에 7일 표시 */
+  margin: 0;
+  box-sizing: border-box;
+}
+.stats-calendar .react-calendar__tile {
+  margin: 0;  /* **수정**: 그리드 gap만 사용해 한 줄에 7일 모두 표시 */
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.2s;
+}
+.stats-calendar .react-calendar__tile:enabled:hover {
+  background: var(--accent-light);
+}
+.stats-calendar .react-calendar__tile--active {
+  background: var(--accent-dark) !important;
+  color: #fff !important;
+}
+.stats-calendar .react-calendar__tile--rangeStart,
+.stats-calendar .react-calendar__tile--rangeEnd {
+  background: var(--accent-dark) !important;
+  color: #fff !important;
+}
+.stats-calendar   .react-calendar__tile--range {
+  background: rgba(79,70,229,0.2) !important;
+  color: #fff !important;
+}
+.stats-calendar .react-calendar__tile--neighboringMonth {
+  opacity: 0.1 !important;
+}
+/* 우측 패널 */
+.stats-right {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
-/* 이전 달, 다음 달 날짜 색상 조절 */
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #d0cfcf !important;
+/* 레코드 카드 */
+.record-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  padding-bottom: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.record-card:hover {
+  transform: translateY(-6px);
+  background-color: rgb(252, 241, 255);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.record-card.selected {
+  border-color: var(--primary);
+}
+.record-card .delete-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #fff;
+  background: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.record-card .delete-btn:hover {
+  background: #c0392b;
 }
 
-/* 모든 스크롤바 숨기기 (Webkit 브라우저) */
-.my-record-list {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE, Edge */
+
+
+.card-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8px;
 }
-.my-record-list::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.card-values {
+  font-size: 14px;
+  color: var(--text);
+  margin-top: 8px;
 }

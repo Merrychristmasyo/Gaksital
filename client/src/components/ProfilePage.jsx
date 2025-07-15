@@ -76,7 +76,7 @@ const ProfilePage = ({user}) => {
         alignItems: "center",
         justifyContent: "center",
         gap: "20px", // gap을 줄임
-        paddingTop: "80px"
+        paddingTop: "20px"
       }}
     >
       {/* 사용자 이미지와 연필 버튼 */}

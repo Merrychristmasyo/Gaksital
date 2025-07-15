@@ -51,11 +51,11 @@ function App() {
         />
         <Route
           path="/recommend"
-          element={user ? <SongRecommendPage /> : <Navigate to="/" />}
+          element={user ? <SongRecommendPage user={user} /> : <Navigate to="/" />}
         />
         <Route
           path="/eye"
-          element={user ? <MainPage /> : <Navigate to="/" />}
+          element={user ? <MainPage user={user} /> : <Navigate to="/" />}
         />
         <Route
           path="/edit-profile"

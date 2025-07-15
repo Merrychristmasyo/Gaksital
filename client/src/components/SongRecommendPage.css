@@ -1,0 +1,196 @@
+.song-recommend-page {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+  margin-top: 70px; /* 헤더 높이만큼 아래로 내림 */
+}
+
+.left-panel {
+  flex: 1;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.date-selector {
+  margin-bottom: 16px;
+}
+
+.date-selector select {
+  padding: 8px 24px 8px 36px; /* 왼쪽에 아이콘 공간 */
+  border-radius: 20px;
+  border: 2px solid #d6cfff; /* 연한 보라 */
+  background: #faf7ff url('data:image/svg+xml;utf8,<svg fill="purple" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"/></svg>') no-repeat 10px center;
+  font-size: 1.1rem;
+  color: #cbbdfc; /* 연한 보라 */
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(160, 132, 255, 0.05);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px; /* 달 선택과 날짜 선택 사이 칸 조절*/
+}
+
+.date-selector select:focus {
+  border: 2.5px solid #bbaaff;
+  box-shadow: 0 4px 16px rgba(160, 132, 255, 0.10);
+  background-color: #f6f2ff;
+}
+
+.day-scroll {
+  display: flex;
+  overflow-x: auto;
+  max-width: 700px;   /* 그 너비를 넘어가는 날짜들은 좌우로 스크롤해야만 보이게 됨*/
+  margin-top: 8px; /* 추가 간격 */
+  align-items: center; /*가운데에서 커지도록. 원이 내려가서 커지는 게 아니라.*/
+}
+
+.day-item {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day-item.selected {
+  background: linear-gradient(135deg, #bbaaff 60%, #e3dbff 100%);
+  color: #fff;
+}
+
+.saved-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.saved-item {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.saved-item img {
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 12px;
+}
+
+.info .title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.info .channel,
+.info .artist {
+  font-size: 12px;
+  color: #666;
+}
+
+.right-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.right-panel-top {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.weather-container,
+.time-container {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.time-container {
+  margin-right: 0;
+}
+
+.weather-icon {
+  font-size: 32px;
+}
+
+.weather-info {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.time-big {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.date-small {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.hashtags {
+  margin-bottom: 16px;
+}
+
+.hashtags span {
+  margin-right: 8px;
+  color: #6c2cff
+}
+
+.songs-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px; /* 원하는 높이로 조절 */
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.song-item img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  margin-right: 12px;
+  border-radius: 8px;
+}
+
+.song-info .title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.song-info .channel {
+  font-size: 14px;
+  color: #555;
+}
+
+.song-item.selected {
+  background: linear-gradient(90deg, #ede6ff 60%, #e3dbff 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(160, 132, 255, 0.08);
+  transition: background 0.2s;
+}
+.song-item {
+  transition: background 0.2s;
+}
+.song-item:hover {
+  background: #f5f0ff;
+}

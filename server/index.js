@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 require("./auth");
 const authRoutes   = require("./routes/auth");
 const recordRouter = require("./routes/records");
+const savedSongsRouter = require("./routes/savedSongs");
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(cors({
 
 // 3) JSON 바디 파싱 ★ 변경  
 //    → 반드시 /records 보다 **위**에 와야 req.body를 인식합니다.
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 // 4) 세션 미들웨어 ★ 변경  
 //    → passport.session() 전에 등록해야 세션이 정상 동작합니다.
@@ -51,6 +52,7 @@ app.use("/auth", authRoutes);
 //    → express.json(), session, passport.session() 이후에 등록해야  
 //      req.body 와 req.user 를 모두 사용할 수 있습니다.
 app.use("/records", recordRouter);
+app.use("/api/saved-songs", savedSongsRouter);
 
 // 9) 서버 시작
 const PORT = process.env.PORT || 5000;
