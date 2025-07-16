@@ -10,6 +10,10 @@ const RecordSchema = new mongoose.Schema({
   blinkCounts: [{                   
     type: Number,
     required: true
+  }],
+  blinkTimestamps: [{
+    type: Date,
+    required: true
   }]
 });
 

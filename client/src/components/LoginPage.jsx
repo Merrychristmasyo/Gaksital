@@ -1,8 +1,27 @@
 import React from "react";
 import "./LoginPage.css";
+import { useSpring, animated } from "@react-spring/web";
 
 const LoginPage = () => {
   const API_URL = process.env.REACT_APP_API_URL;
+
+  const leftSpring = useSpring({
+    from: { opacity: 0, transform: "translateY(50px)" },
+    to: { opacity: 1, transform: "translateY(0px)" },
+    delay: 200,
+  });
+
+  const centerSpring = useSpring({
+    from: { opacity: 0, transform: "translateY(20px)" },
+    to: { opacity: 1, transform: "translateY(0px)" },
+    delay: 400,
+  });
+
+  const rightSpring = useSpring({
+    from: { opacity: 0, transform: "scale(0.9)" },
+    to: { opacity: 1, transform: "scale(1)" },
+    delay: 600,
+  });
 
   const handleGoogleLogin = () => {
     console.log('Google 로그인 버튼 클릭됨');
@@ -24,20 +43,22 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       {/* 왼쪽: 서비스 이름/설명 */}
-      <div className="login-left">
+      <animated.div className="login-left" style={leftSpring}>
         <h1>Blink</h1>
         <p>Care your eyes</p>
-      </div>
+      </animated.div>
+
+
       {/* 가운데: 3D 캐릭터 이미지 */}
-      <div className="login-center">
+      <animated.div className="login-center" style={centerSpring}>
         <img
           src="/3d_char.png"
           alt="character"
           className="character-img"
         />
-      </div>
+      </animated.div>
       {/* 오른쪽: 로그인 폼 및 구글 로그인 버튼 */}
-      <div className="login-right">
+      <animated.div className="login-right" style={rightSpring}>
         <h2>Sign in</h2>
         <input type="text" placeholder="Enter email or user name" />
         <input type="password" placeholder="Password" />
@@ -52,7 +73,7 @@ const LoginPage = () => {
             className="google-logo"
           />
         </button>
-      </div>
+      </animated.div>
     </div>
   )
 }

@@ -1,9 +1,25 @@
+/* NavBar.css 최상단에 추가 */
+@font-face {
+  font-family: 'EF_jejudoldam';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ownglyph_UNZ-Rg';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2406-1@1.0/Ownglyph_UNZ-Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .navbar {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px 0 40px;
+  padding-bottom: 20px;
   box-sizing: border-box;
   background: #fff;
   position: fixed;
@@ -13,8 +29,10 @@
 }
 
 .main-logo {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 400;
+  /* 이 줄을 추가합니다 */
+  font-family: 'EF_jejudoldam', sans-serif;
 }
 
 .main-menu {
@@ -27,11 +45,11 @@
 .main-menu a {
   text-decoration: none;
   color: #222;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 28px;
+  font-family: 'Ownglyph_UNZ-Rg', sans-serif;
   transition: color 0.2s, background 0.2s;
-  padding: 6px 18px;
-  border-radius: 8px;
+  padding: 6px 30px;
+  font-weight: 600;
 }
 
 .main-menu a:hover {
@@ -61,15 +79,34 @@
 
 .logout-btn {
   background: none;
-  color: #222;
+  color: #000000;
   border: none;
-  font-size: 16px;
+  font-size: 28px;
   cursor: pointer;
   margin-left: 4px;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 0.2s;
+  font-family: 'Ownglyph_UNZ-Rg', sans-serif;
 }
 
 .logout-btn:hover {
   color: #6c2cff; /* 보라색 */
+}
+
+.menu-item {
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-family: 'Ownglyph_UNZ-Rg', sans-serif;
+}
+
+.menu-item:hover {
+  background: rgba(186, 170, 255, 0.2);
+}
+
+.menu-item.active {
+  background: #bbaaff;  /* 보라색 */
+  color: #fff;
 }
