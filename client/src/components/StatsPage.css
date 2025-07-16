@@ -16,7 +16,7 @@
 /* 전체 페이지 레이아웃 */
 .stats-page {
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
   padding: 24px;

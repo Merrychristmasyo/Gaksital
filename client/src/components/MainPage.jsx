@@ -6,6 +6,7 @@
   import { useNavigate } from "react-router-dom";
   import { ToastContainer, toast } from "react-toastify";
   import 'react-toastify/dist/ReactToastify.css';
+  import { useSpring, animated, config } from "@react-spring/web";
 
   const API_URL = process.env.REACT_APP_API_URL;  
   // .env에 설정된 백엔드 API 기본 URL을 상수로 저장합니다.
@@ -234,7 +235,8 @@
 
       console.log("▶▶▶ avgOpen =", avgOpen);
       
-      if (avgOpen < 95) {
+      const doTiredAlert = JSON.parse(localStorage.getItem("alert1") || "false");
+      if (avgOpen < 95 && doTiredAlert) {
         toast.info(
           <div style={{ textAlign: 'center' }}>
             피곤하면 잠시 쉬어 가세요!<br/>
@@ -259,7 +261,8 @@
     const checkEyeDrought = () => {
       const { blinkTimestamps } = sessionData;
 
-      if (blinkTimestamps.length < 2) {
+      const doLowBlinkAlert = JSON.parse(localStorage.getItem("alert2") || "false");
+      if (blinkTimestamps.length < 2 && doLowBlinkAlert) {
         toast.warning(
           <div style={{ textAlign: 'center' }}>
             👀 화면보다 눈 건강이 먼저예요!<br/>
@@ -278,7 +281,7 @@
         .map((t, i) => (t - blinkTimestamps[i]) / 1000);
       const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
       console.log("▶▶▶ avgInterval =", avgInterval);
-      if (avgInterval > 5) {
+      if (avgInterval > 5 && doLowBlinkAlert) {
         toast.warning(
           <div style={{ textAlign: 'center' }}>
             👀 화면보다 눈 건강이 먼저예요!<br/>
@@ -289,15 +292,34 @@
             autoClose: 8000
           }
         );
-      } else {
+      } else if (avgInterval <=5 && doLowBlinkAlert) {
         toast.success("👏 눈 깜빡임이 정상이에요!", { icon: '👍', autoClose: 3000 });
       }
     };
 
+    const containerSpring = useSpring({
+      from: { opacity: 0, transform: "scale(0.95)" },
+      to:   { opacity: 1, transform: "scale(1)" },
+      config: config.wobbly,
+    });
+    const leftSpring = useSpring({
+      from: { opacity: 0, transform: "translateY(50px)" },
+      to:   { opacity: 1, transform: "translateY(0px)" },
+      config: config.stiff,
+      delay: 300,
+    });
+    const rightSpring = useSpring({
+      from: { opacity: 0, transform: "translateY(50px)" },
+      to:   { opacity: 1, transform: "translateY(0px)" },
+      config: config.stiff,
+      delay: 600,
+    });
+
     return (
-      <div
+      <animated.div
         style={{
-          width: "100vw",               // 화면 전체 너비
+          ...containerSpring,
+          width: "100%",               // 화면 전체 너비
           display: "flex",              // 가로 플렉스 레이아웃
           justifyContent: "center",     // 좌우 중앙 정렬
           alignItems: "flex-start",     // 상단 정렬
@@ -307,22 +329,24 @@
         <NavBar />  {/* 네비게이션 바 렌더링 */}
 
         {/* 왼쪽 패널: 눈 애니메이션 영역 */}
-        <div
+        <animated.div
           style={{
-            marginTop: "230px",         // 상단 여백
+            ...leftSpring,
+            marginTop: "280px",         // 상단 여백
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
           }}
         >
           {/* 눈 애니메이션(샘플) */}
-          <img src={getEyeImage(openness)} alt="eye open image" style={{ width: "450px", height: "540px" }} />
+          <img src={getEyeImage(openness)} alt="eye open image" style={{ width: "350px", height: "440px" }} />
           
-        </div>
+        </animated.div>
 
         {/* 오른쪽 패널: 웹캠 영상 + 실시간 정보 */}
-        <div
+        <animated.div
           style={{
+            ...rightSpring,
             marginTop: "200px", width: "720px", height: "600px", // 높이 살짝 늘림
             background: "#ddd", borderRadius: "18px",
             position: "relative", overflow: "hidden",
@@ -372,7 +396,7 @@
           >
             {isRecognizing ? "인식중…" : "인식 시작"}
           </button>
-        </div>
+        </animated.div>
         
         
         
@@ -430,7 +454,7 @@
             </div>
           </div>
         )}
-      </div>
+      </animated.div>
     );
   };
 
