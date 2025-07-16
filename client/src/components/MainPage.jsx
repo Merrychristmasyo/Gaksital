@@ -323,16 +323,15 @@
           display: "flex",              // 가로 플렉스 레이아웃
           justifyContent: "center",     // 좌우 중앙 정렬
           alignItems: "flex-start",     // 상단 정렬
-          gap: "120px"                  // 요소 간 수평 간격
+          gap: "120px"                  // 요소 간 수평 간격 
         }}
       >
-        <NavBar />  {/* 네비게이션 바 렌더링 */}
 
         {/* 왼쪽 패널: 눈 애니메이션 영역 */}
-        <animated.div
+        <animated.div 
           style={{
-            ...leftSpring,
-            marginTop: "280px",         // 상단 여백
+            ...leftSpring,  
+            marginTop: "25vh",       // 상단 여백
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
@@ -347,7 +346,7 @@
         <animated.div
           style={{
             ...rightSpring,
-            marginTop: "200px", width: "720px", height: "600px", // 높이 살짝 늘림
+            marginTop: "13vh",width: "720px", height: "600px", // 높이 살짝 늘림
             background: "#ddd", borderRadius: "18px",
             position: "relative", overflow: "hidden",
             display: "flex", flexDirection: "column", alignItems: "center"

@@ -121,7 +121,8 @@ const StatsPage = () => {
               onChange={date => setSelectedDate(date)}
               value={selectedDate}
               formatDay={(_, date) => date.getDate()}
-            />
+              showFixedNumberOfWeeks={true} //이거 추가함.(07/16) -> false로 하면 달력에서 필요한 4-5주만 보여줌. true로 하면 6주까지 보여줌.
+            /> 
           </Suspense>
         </div>
       </div>

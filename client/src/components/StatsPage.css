@@ -1,77 +1,106 @@
+@font-face {
+  font-family: 'Ownglyph_UNZ-Rg';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2406-1@1.0/Ownglyph_UNZ-Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ownglyph_meetme-Rg';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 /* client/src/components/StatsPage.css */
 :root {
   --nav-height: 64px;
-  --primary: #a290bf;         /* pastel purple */
+  --primary: #bbaaff;        /* pastel purple */
   --accent-light: #e6e1f0;   /* light pastel purple */
-  --accent-dark: #8c6ba5;    /* darker pastel purple */
+  --accent-dark: #bbaaff;    /* darker pastel purple */
   --bg: #f4f2fa;             /* pale lavender */
   --card-bg: #ffffff;        /* white cards */
   --border: #ddd6f7;         /* light lavender border */
-  --text: #4a3f55;           /* dark muted purple text */
-  --muted: #8a7890;          /* softer muted purple text */
+  --text: #000000;           /* dark muted purple text */
+  --muted: #bbaaff;
+  
 }
 
 /* 전체 페이지 레이아웃 */
 .stats-page {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.2fr 2fr; /* 화면 비율을 4:6으로 설정*/
   width: 100%;
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
-  padding: 24px;
+  overflow: hidden; /* 캘린더 영역 넘침 방지 */
+  font-family: 'Ownglyph_meetme-Rg', sans-serif;
+
+  font-weight: 200;
+  font-size: 28px;
+  padding: 2rem 1.5rem;
+  gap:     1.5rem;
+
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-  gap: 24px;
+  overflow: hidden;      /* 오른쪽만 스크롤 */
 }
 
 /* 좌측 패널 */
 .stats-left {
-  width: 35%;
-  display: flex;
+  display: flex; 
   flex-direction: column;
+  gap: 1.5rem;
   justify-content: flex-start;
   height: 100%;
-  gap: 24px;
 }
 
 /* 통계 요약 카드 */
 .stats-summary {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--primary);
-  border-bottom: 4px solid var(--primary);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   height: 200px;
   box-sizing: border-box;
-
+ 
   display: flex;                /* ✨ 변경: flex 레이아웃으로 */
   flex-direction: column;       /* 세로 배치 */
   justify-content: space-between; /* 위아래 여백 확보 */
 }
 
+/* 상세 정보 안내 문구를 카드 중앙에 배치 */
+.stats-summary .no-selection {
+  margin: auto;      /* 상하좌우 자동 여백으로 가운데 정렬 */
+  text-align: center;/* 줄바꿈된 텍스트를 가운데 정렬 */
+  font-family: 'Ownglyph_meetme-Rg', sans-serif;
+  font-size: 25px;
+}
+
+
 /* 날짜 */
 .summary-date {
-  font-size: 20px;              /* ✨ 변경: 크기 살짝 키움 */
-  font-weight: 600;
-  color: var(--accent-dark);    /* ✨ 변경: primary → accent-dark */
+  font-size: 30px;              /* ✨ 변경: 크기 살짝 키움 */
+  font-weight: 300;
+  text-align: center;
+  color: #6c6c6c;    /* ✨ 변경: primary → accent-dark */
   margin-bottom: 8px;           /* ✨ 변경: 간격 조정 */
   letter-spacing: 1px;          /* ✨ 변경: 자간 추가 */
-  font-family: 'Inter', sans-serif; /* ✨ 변경: 인터 폰트 명시 */
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 /* 레이블 그룹을 카드 상단에 가깝게 */
 .summary-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
+  font-size: 20px;
   align-items: center;
-  color: var(--muted);
+  color: #9756fe;
   margin-bottom: 4px;           /* ✨ 변경: 여백 축소 */
   text-transform: uppercase;    /* ✨ 변경: 대문자로 통일 */
   letter-spacing: 0.2px;        /* ✨ 변경: 자간 추가 */
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 .summary-labels > * {
@@ -83,10 +112,11 @@
 .summary-values {
   display: flex;
   justify-content: space-between;
-  font-size: 28px;              /* ✨ 변경: 크기 키워 강조 */
-  font-weight: 700;             /* ✨ 변경: 더 굵게 */
+  font-size: 45px;              /* ✨ 변경: 크기 키워 강조 */
+  font-weight: 500;             /* ✨ 변경: 더 굵게 */
   color: var(--primary);        /* ✨ 변경: primary 색상으로 */
   line-height: 1.2;             /* ✨ 변경: 줄간격 조정 */
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 /* summary-values 안의 개별 값에 여유주기 */
@@ -99,16 +129,13 @@
 .stats-calendar {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--primary);
-  border-bottom: 4px solid var(--primary);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   box-sizing: border-box;
-  flex-grow: 1;
-  display: flex;
+  display: block;
   flex-direction: column;
-  height: 0;
+  height: auto;
+  font-family: 'Ownglyph_meetme-Rg';
 }
 .stats-calendar .react-calendar {
   flex: 1;
@@ -116,7 +143,7 @@
   flex-direction: column;
   width: 100%; height: 100%;
   background: none;
-  font-family: inherit;
+  font-family: inherit; /* 캘린더 폰트 상속 */
   border: none;
 }
 .stats-calendar .react-calendar__navigation {
@@ -138,9 +165,10 @@
   color: var(--muted);
 }
 .stats-calendar .react-calendar__navigation__label {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 27px;
+  font-weight: 400;
+  color: #00000072;
+  font-family: 'Ownglyph_meetme-Rg', sans-serif;
 }
 .stats-calendar .react-calendar__month-view__weekdays {
   display: grid;
@@ -149,7 +177,7 @@
 }
 .stats-calendar .react-calendar__month-view__weekdays__weekday {
   text-align: center;
-  font-size: 14px;
+  font-size: 20px;
   color: var(--muted);
   text-transform: capitalize;
 }
@@ -158,26 +186,24 @@
   grid-template-columns: repeat(7, 1fr);  /* 한 줄에 7일 표시 */
   margin: 0;
   box-sizing: border-box;
+  grid-auto-rows: 60px;
 }
 .stats-calendar .react-calendar__tile {
   margin: 0;  /* **수정**: 그리드 gap만 사용해 한 줄에 7일 모두 표시 */
   border: none;
   border-radius: 8px;
-  height: 40px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 20px;
   color: var(--text);
   transition: background 0.2s;
 }
 .stats-calendar .react-calendar__tile:enabled:hover {
-  background: var(--accent-light);
+  background: #f2f0f8;
 }
-.stats-calendar .react-calendar__tile--active {
-  background: var(--accent-dark) !important;
-  color: #fff !important;
-}
+
 .stats-calendar .react-calendar__tile--rangeStart,
 .stats-calendar .react-calendar__tile--rangeEnd {
   background: var(--accent-dark) !important;
@@ -188,16 +214,53 @@
   color: #fff !important;
 }
 .stats-calendar .react-calendar__tile--neighboringMonth {
-  opacity: 0.1 !important;
+  abbr {
+    color: rgba(255, 255, 255, 0.646)rtant;
+  }
 }
+/* 1) 버튼 전체(배경·테두리·텍스트) 흐리게 */
+.stats-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  opacity: 0.3 !important;      /* 배경·테두리·텍스트 전부 30% 불투명 */
+}
+
+/* 2) 텍스트만 연하게(숫자만 흐리게) */
+.stats-calendar .react-calendar__month-view__days__day--neighboringMonth span {
+  color: rgba(221, 220, 224, 0.979) !important;  
+}
+
+/* 현재 날짜 배경색・텍스트색 커스터마이즈 */
+.stats-calendar .react-calendar__tile--now {
+  background: #fdfbe2 !important;  /* 원하는 배경색으로 */
+  color:     var(--primary)     !important;  /* 원하는 텍스트색으로 */
+  /* 예시: background: #e6f7ff !important; color: #0077b6 !important; */
+}
+
+.stats-calendar .react-calendar__tile--active {
+  background: var(--accent-dark) !important;
+  color:     #fff               !important;
+}
+/* 클릭된 오늘(today)은 항상 active 스타일(보라)로 */
+.stats-calendar .react-calendar__tile--now.react-calendar__tile--active {
+  background: var(--accent-dark) !important;
+  color:     #fff               !important;
+}
+
+
 /* 우측 패널 */
 .stats-right {
-  width: 65%;
   display: flex;
   flex-direction: column;
   gap: 16px;
   overflow-y: scroll;
   box-sizing: border-box;
+}
+
+/* 기록이 없을 때 나오는 메시지를 .stats-right 안에서 완전 중앙으로 */
+.stats-right .no-records {
+  /* 1) 수직·수평 모두 자동 여백으로 가운데 */
+  margin: auto;
+  /* 2) 텍스트 줄바꿈 시 가로 중앙 정렬 */
+  text-align: center;
 }
 
 /* 레코드 카드 */
@@ -218,7 +281,7 @@
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 .record-card.selected {
-  border-color: var(--primary);
+  border-color: #6c2cff
 }
 .record-card .delete-btn {
   position: absolute;
@@ -227,26 +290,26 @@
   padding: 4px 8px;
   font-size: 12px;
   color: #fff;
-  background: #e74c3c;
+  background: #e08075;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s;
 }
 .record-card .delete-btn:hover {
-  background: #c0392b;
+  background: #c14a3d;
 }
 
-
-
 .card-header {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 25px;
+  font-weight: 400;
   color: var(--primary);
   margin-bottom: 8px;
 }
 .card-values {
+  font-family: sans-serif;
   font-size: 14px;
+  font-weight: 450;
   color: var(--text);
   margin-top: 8px;
 }

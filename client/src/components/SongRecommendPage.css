@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Ownglyph_meetme-Rg';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .song-recommend-page {
   display: flex;
   height: 100vh;
@@ -15,6 +22,9 @@
 
 .date-selector {
   margin-bottom: 16px;
+  font-family: 'Ownglyph_meetme-Rg';
+  font-size: 20px;
+  font-weight: 100;
 }
 
 .date-selector select {
@@ -22,11 +32,12 @@
   border-radius: 20px;
   border: 2px solid #d6cfff; /* 연한 보라 */
   background: #faf7ff url('data:image/svg+xml;utf8,<svg fill="purple" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm0-13H5V6h14v1z"/></svg>') no-repeat 10px center;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   color: #cbbdfc; /* 연한 보라 */
-  font-weight: bold;
+  font-weight: 100;
   box-shadow: 0 2px 8px rgba(160, 132, 255, 0.05);
   outline: none;
+  font-family: 'Ownglyph_meetme-Rg';
   transition: border 0.2s, box-shadow 0.2s;
   margin-bottom: 20px; /* 달 선택과 날짜 선택 사이 칸 조절*/
 }
@@ -130,17 +141,21 @@
 .weather-info {
   margin-top: 8px;
   text-align: center;
+  font-size: 20px;
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 .time-big {
   font-size: 48px;
-  font-weight: bold;
+  font-weight: 300;
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 .date-small {
-  font-size: 12px;
+  font-size: 16px;
   color: #666;
   margin-top: 4px;
+  font-family: 'Ownglyph_meetme-Rg';
 }
 
 .hashtags {

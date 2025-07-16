@@ -115,21 +115,21 @@ const FaceMeshComponent = forwardRef(({ width = 640, height = 480, onData }, ref
   }, []);
 
   return (
-    <>
+    <div className="video-wrapper">
       <video
         ref={videoRef}
         playsInline
         muted
         autoPlay
-        style={{ visibility: "hidden", position: "absolute", width: `${width}px`, height: `${height}px` }}
+        style={{ visibility: "hidden", position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
       />
       <canvas
         ref={canvasRef}
         width={width}
         height={height}
-        style={{ width: "100%", height: "100%" }}
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
       />
-    </>
+    </div>
   );
 });
 

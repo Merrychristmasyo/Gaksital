@@ -29,7 +29,7 @@ const NavBar = () => {
   });
 
   // 메뉴 아이템 라벨 & 경로
-  const menuLabels = ["MAIN", "MUSIC", "STATS", "PROFILE/SETTING"];
+  const menuLabels = ["Main", "Music", "Stats", "Profile/Setting"];
   const menuPaths = ["/eye", "/recommend", "/stats", "/profile"];
 
   // 메뉴 아이템 트레일 애니메이션
@@ -42,7 +42,7 @@ const NavBar = () => {
 
   return (
     <animated.nav className="navbar" style={navSpring}>
-      <div className="main-logo">BLINK</div>
+      <div className="main-logo">Blink</div>
 
       <div className="main-menu">
         {trail.map((style, i) => (
@@ -65,7 +65,7 @@ const NavBar = () => {
       >
         <img src={photoUrl} alt="profile" className="profile-icon" />
         <button className="logout-btn" onClick={handleLogout}>
-          로그아웃
+          Logout
         </button>
       </div>
     </animated.nav>

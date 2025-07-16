@@ -16,7 +16,7 @@ const ToggleSwitch = ({ checked, onChange }) => (
     />
     <span style={{
       position: "absolute", cursor: "pointer", top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: checked ? "#000" : "#ccc",
+      backgroundColor: checked ? "#6c2cff" : "#ccc",
       borderRadius: "34px",
       transition: ".4s"
     }}>
@@ -140,7 +140,7 @@ const ProfilePage = ({user}) => {
         <div style={{
           position: "relative",
           display: "inline-block",
-          marginTop: "60px"
+          marginTop: "1.5rem"
         }}>
           <img
             src={user.photo || "https://cdn-icons-png.flaticon.com/512/1946/1946429.png"}
@@ -166,8 +166,9 @@ const ProfilePage = ({user}) => {
       <animated.div style={greetingSpring}>
         <div style={{
           marginTop: "10px",
-          fontSize: "18px",
+          fontSize: "1.5rem",
           textAlign: "center",
+          fontFamily: "Ownglyph_UNZ-Rg",
           fontWeight: "bold"
         }}>
           {user.email.split("@")[0]}님, 눈 뜨세요!<br/>
@@ -183,10 +184,11 @@ const ProfilePage = ({user}) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "60px",
-        minHeight: "200px"
+        marginTop: "1.25rem",
+        minHeight: "200px",
+        fontFamily: "Ownglyph_UNZ-Rg"
       }}>
-        <div style={{ fontWeight: "bold", marginBottom: "20px", fontSize: "20px" }}>
+        <div style={{ fontWeight: 600, marginBottom: "1rem", fontSize: "2rem" }}>
           알림 설정
         </div>
         {trail.map((style, i) => (
@@ -194,7 +196,8 @@ const ProfilePage = ({user}) => {
             ...style,
             display: "flex",
             alignItems: "center",
-            marginBottom: "16px"
+            marginBottom: "16px",
+            fontSize: "24px"
           }}>
             <span style={{ marginRight: "16px" }}>{toggleLabels[i].label}</span>
             <ToggleSwitch
@@ -215,7 +218,7 @@ const ProfilePage = ({user}) => {
         <button
           onClick={handleLogout}
           style={{
-            background: "#000",
+            background: "#6c2cff",
             color: "#fff",
             border: "none",
             borderRadius: "8px",

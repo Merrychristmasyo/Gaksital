@@ -4,9 +4,28 @@
   background: #fff;
 }
 .main-content {
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  gap: 2rem;             
+  padding: 1rem;
+}
+
+.right-panel {
+  background: #ddd;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.right-panel {
+  background: #ddd;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
 }
