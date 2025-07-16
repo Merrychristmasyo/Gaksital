@@ -45,7 +45,7 @@ const LoginPage = () => {
       {/* 왼쪽: 서비스 이름/설명 */}
       <animated.div className="login-left" style={leftSpring}>
         <h1>Blink</h1>
-        <p>Care your eyes</p>
+        <p>‧˚₊*̥ ✶⋆Care your eyes‧˚₊*̥ ✶⋆</p>
       </animated.div>
 
 

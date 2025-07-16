@@ -13,7 +13,7 @@
 
   const MainPage = () => {
     // MainPage 컴포넌트 시작
-    const mainTimer = 5
+    const mainTimer = 10;
     const navigate = useNavigate();
     const meshToggleRef = useRef(null);  
     // FaceMeshComponent의 토글 함수를 참조하기 위한 ref 객체를 생성합니다.
@@ -347,7 +347,7 @@
           style={{
             ...rightSpring,
             marginTop: "13vh",width: "720px", height: "600px", // 높이 살짝 늘림
-            background: "#ddd", borderRadius: "18px",
+            background: "#faf7ff", borderRadius: "18px",
             position: "relative", overflow: "hidden",
             display: "flex", flexDirection: "column", alignItems: "center"
           }}
@@ -388,7 +388,7 @@
               marginTop: "16px", padding: "12px 36px",
               marginBottom: "16px",
               fontSize: "18px",
-              background: isRecognizing ? "#555" : "#111",
+              background: isRecognizing ? "#8550ff" : "#8550ff",
               color: "#fff", border: "none", borderRadius: "8px",
               cursor: isRecognizing ? "not-allowed" : "pointer"
             }}

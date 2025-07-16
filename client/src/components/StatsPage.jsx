@@ -57,7 +57,7 @@ const StatsPage = () => {
       ? selectedRecord.blinkTimestamps
       : [];
     if (tsArr.length < 2) {
-      return <div className="no-records">깜빡임 데이터가 충분하지 않습니다</div>;
+      return <div className="no-records">깜빡임 데이터가 충분하지 않습니다.</div>;
     }
     // 시간(ms) 배열로 변환
     const times = tsArr.map(t => {

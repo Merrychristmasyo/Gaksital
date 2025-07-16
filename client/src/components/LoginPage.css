@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'EF_jejudoldam';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 전체 레이아웃 */
 .login-container {
   display: flex;
@@ -11,15 +18,18 @@
 .login-left {
   flex: 1;
   text-align: center;
+  font-family: 'EF_jejudoldam';
 }
 .login-left h1 {
-  font-size: 48px;
-  font-weight: bold;
+  font-size: 100px;
+  font-weight: 300;
   margin-bottom: 16px;
+  margin-left: 100px;
 }
 .login-left p {
   font-size: 24px;
-  color: #444;
+  color: #939393;
+  margin-left: 100px;
 }
 
 /* 가운데: 캐릭터 이미지 */
@@ -42,8 +52,10 @@
   align-items: center;
 }
 .login-right h2 {
-  font-size: 32px;
-  margin-bottom: 24px;
+  font-size: 36px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  font-family: 'EF_jejudoldam';
 }
 .login-right input {
   width: 300px;

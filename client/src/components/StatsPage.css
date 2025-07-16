@@ -70,6 +70,13 @@
   justify-content: space-between; /* 위아래 여백 확보 */
 }
 
+/* 좌측 요약 카드 안에서, 데이터 부족 메시지를 완전 중앙에 띄우기 */
+.stats-summary .no-records {
+  margin: auto;        /* 상하좌우 자동 여백으로 컨테이너 중앙에 배치 */
+  text-align: center;  /* 줄바꿈된 텍스트도 가로 중앙 정렬 */
+}
+
+
 /* 상세 정보 안내 문구를 카드 중앙에 배치 */
 .stats-summary .no-selection {
   margin: auto;      /* 상하좌우 자동 여백으로 가운데 정렬 */
@@ -253,13 +260,18 @@
   gap: 16px;
   overflow-y: scroll;
   box-sizing: border-box;
+  position: relative;
 }
 
 /* 기록이 없을 때 나오는 메시지를 .stats-right 안에서 완전 중앙으로 */
 .stats-right .no-records {
+  position: absolute;
   /* 1) 수직·수평 모두 자동 여백으로 가운데 */
-  margin: auto;
   /* 2) 텍스트 줄바꿈 시 가로 중앙 정렬 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  margin: 0;
   text-align: center;
 }
 

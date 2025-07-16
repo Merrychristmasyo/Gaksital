@@ -42,7 +42,7 @@ const NavBar = () => {
 
   return (
     <animated.nav className="navbar" style={navSpring}>
-      <div className="main-logo">Blink</div>
+      <div className="main-logo">Blink‧˚₊*̥ ✶⋆</div>
 
       <div className="main-menu">
         {trail.map((style, i) => (
